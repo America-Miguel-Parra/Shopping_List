@@ -2,8 +2,18 @@ function App() {
 
   return (
     <div className="container text-center">
+      <div className="row">
+        <div className="col text-start">
+        </div>
+      </div>
       <h1 className="mt-3">Shopping List</h1>
       <hr/>
+      <div className="col text-end">
+        <button type="button" className="btn btn-outline-primary">
+          <i className="bi bi-plus-circle"></i>
+        </button>
+      </div>
+      
       <div className="row mt-4">
         <div className="col">
           <input type="checkbox" />
