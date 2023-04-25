@@ -56,7 +56,7 @@ setListItems(newList);
           <h1>Shopping List</h1>
         </div>
         <div className="col text-end">
-          <NewItemButton/>
+          <NewItemButton listItems = {listItems} setListItems={setListItems}/>
         </div>
         <hr />
 
@@ -78,7 +78,7 @@ setListItems(newList);
 
       <div className="row">
         <div className="col text-end">
-          <NewItemButton/>
+          <NewItemButton listItems = {listItems} setListItems={setListItems}/>
         </div>
 
       </div>
