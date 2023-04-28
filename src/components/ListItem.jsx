@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 const ListItem = ({item, handleItemChecked, listItems, setListItems}) => {
   const {id, name, quantity, unit, checked} = item;
 
