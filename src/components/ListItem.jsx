@@ -1,4 +1,82 @@
-const ListItem = ({id, name, quantity, unit, checked, handleItemChecked}) => {
+const ListItem = ({item, handleItemChecked, listItems, setListItems}) => {
+  const {id, name, quantity, unit, checked} = item;
+
+  const deleteListItem = () => {
+    const newList = listItems.filter(item => item.id !== id);
+    setListItems(newList);
+  }
+
+  const cloneListItem = () => {
+    const newList = [
+      ...listItems,
+      {
+        ...item, 
+      id: (listItems.length + 1).toString(),
+      }
+    ];
+
+    setListItems(newList);
+  }
+
+  const editListItem  = async () => {
+    const {value} = await Swal.fire({
+      title: "Item information",
+      html: `
+      <input 
+      type="text" 
+      id="name" name="name"  
+      placeholder="name" 
+      class="swal2-input"  
+      value="${name}" 
+      />
+      
+      <input 
+      type="numeric" 
+      id="quantity" 
+      name="quantity" 
+      placeholder="quantity" 
+      class="swal2-input" 
+      value="${quantity}"
+      />
+      
+      <input 
+      type="text" 
+      id="unit" 
+      name="unit" 
+      placeholder="unit" 
+      class="swal2-input" 
+      value="${unit}"
+      />`,
+
+      confirmButtonText: "Save item",
+      showCancelButton: true,
+      cancelButtonText: "Discard",
+      focusConfirm: false,
+      preConfirm: () => {
+        const name = Swal.getPopup().querySelector("#name").value;
+        const quantity = Swal.getPopup().querySelector("#quantity").value;
+        const unit = Swal.getPopup().querySelector("#unit").value;
+        if(!name || !quantity || !unit) {
+          Swal.showValidationMessage("Please enter a name");
+        }
+        return {name, quantity, unit};
+      }
+
+    });
+    if(!value.name || !value.quantity || !value.unit) return 
+    
+    const newList = listItems.map((item) => {
+      if (item.id === id) {
+        item.name = value.name; 
+        item.quantity = value.quantity; 
+        item.unit = value.unit; 
+      }
+
+      return item;
+    })
+
+    setListItems(newList);
+}
     return (
         <div className="row mt-4">
         <div className="col">
@@ -16,9 +94,9 @@ const ListItem = ({id, name, quantity, unit, checked, handleItemChecked}) => {
           </div>
         <div className="col-6 col-md-8" style={{textDecoration: checked && "line-through"}}>{name}</div>
         <div className="col-5 col-md-3 btn-group" role="group">
-          <button type="button" class="btn btn-outline-primary bi bi-pencil-square"></button>
-          <button type="button" class="btn btn-outline-secondary bi bi-files"></button>
-          <button type="button" class="btn btn-outline-danger bi bi-trash3"></button>
+          <button type="button"  onClick={editListItem}  class="btn btn-outline-primary bi bi-pencil-square" ></button>
+          <button type="button"   onClick={cloneListItem}  class="btn btn-outline-secondary bi bi-files"></button>
+          <button type="button"  onClick={deleteListItem}  class="btn btn-outline-danger bi bi-trash3"></button>
         </div>
       </div>
     )
