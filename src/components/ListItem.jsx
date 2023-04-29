@@ -1,10 +1,12 @@
 import Swal from "sweetalert2";
+import {v4 as uuidv4} from "uuid"
 
 const ListItem = ({item, handleItemChecked, listItems, setListItems}) => {
   const {id, name, quantity, unit, checked} = item;
 
   const deleteListItem = () => {
     const newList = listItems.filter(item => item.id !== id);
+    localStorage.setItem("listItems", JSON.stringify(newList));
     setListItems(newList);
   }
 
@@ -13,10 +15,11 @@ const ListItem = ({item, handleItemChecked, listItems, setListItems}) => {
       ...listItems,
       {
         ...item, 
-      id: (listItems.length + 1).toString(),
+      id: uuidv4(),
       }
     ];
 
+    localStorage.setItem("listItems", JSON.stringify(newList));
     setListItems(newList);
   }
 
@@ -77,6 +80,7 @@ const ListItem = ({item, handleItemChecked, listItems, setListItems}) => {
       return item;
     })
 
+    localStorage.setItem("listItems", JSON.stringify(newList));
     setListItems(newList);
 }
     return (

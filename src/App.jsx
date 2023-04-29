@@ -2,41 +2,12 @@ import { useState } from "react"
 import ListItem from "./components/ListItem"
 import NewItemButton from "./components/NewItemButton"
 import ClearListButton from "./components/ClearListButton"
+import {v4 as uuidv4} from "uuid"
 
 function App() {
-  const [listItems, setListItems] = useState([
-    {
-      id: "1",
-      name:"Arroz",
-      quantity: 1,
-      unit: "Kg",
-      checked: false,
-    },
-
-    {
-      id: "2",
-      name:"Frijol",
-      quantity: 2,
-      unit: "Kg",
-      checked: false,
-    },
-
-    {
-      id: "3",
-      name:"Leche",
-      quantity: 1,
-      unit: "Lt",
-      checked: false,
-    },
-
-    {
-      id: "4",
-      name:"Papel higienico",
-      quantity: 1,
-      unit: "pza",
-      checked: false,
-    },
-  ])
+  const [listItems, setListItems] = useState(
+    JSON.parse (localStorage.getItem("listItems")) || []
+  )
 
 const handleItemChecked = (e) => {
   const newList = listItems.map(item => {
@@ -46,6 +17,7 @@ const handleItemChecked = (e) => {
     return item;
 })
 
+localStorage.setItem("listItems", JSON.stringify(newList));
 setListItems(newList);
   }
 

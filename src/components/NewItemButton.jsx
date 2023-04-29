@@ -1,5 +1,6 @@
 import React from "react"
 import Swal from "sweetalert2"
+import {v4 as uuidv4} from "uuid"
 
 const NewItemButton = ({listItems, setListItems}) => {
     const newIteModal  = async () => {
@@ -26,14 +27,16 @@ const NewItemButton = ({listItems, setListItems}) => {
           }
 
         })
-        setListItems ([
+        const newList = [
           ...listItems,
           {
-              id: `${listItems.length + 1}`,
+              id: uuidv4 (),
               ...value,
               checked: false,
           }
-      ])
+        ]
+        localStorage.setItem("listItems", JSON.stringify(newList));
+        setListItems (newList)
     }
   return (
     <button 
